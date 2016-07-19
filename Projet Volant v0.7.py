@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #Auteur : Alexandreou
 print("----------------------------------------------------------------------")
-print("Projet Volant v0.6")
+print("Projet Volant v0.7")
 print("----------------------------------------------------------------------")
 print("")
 #----------------------------------------------------
@@ -94,44 +94,46 @@ def a(a):
 	global moteur3
 	global moteur4
 	ajustx = 7
-	ajusty = 0
-	ajustz = -58
+	ajusty = 11
+	listex = []
+	listey = []
 	while True:
 		x = bus.read_byte_data(0x68, 0x3B)
 		y = bus.read_byte_data(0x68, 0x3D)
-		z = bus.read_byte_data(0x68, 0x3F)
 		x += ajustx
 		y += ajusty
-		z += ajustz
-		if x < 0:
-			x = 256 + x
-		if y < 0:
-			y = 256 + y
-		if z < 0:
-			z = 256 + z
-		if x > 127 and x <= 255:
-			x -= 255
-		if y > 127 and y <= 255:
-			y -= 255
-		if z > 127 and z <= 255:
-			z -= 255
-
-		if mov == 0 and x > 5:
+		if x > 127:
+			x -= 256
+		if y > 127:
+			y -= 256
+		if len(liste) <= 4:
+			listex.append(x)
+			listey.append(y)
+		else:
+			xx = (listex[0]+listex[1]+listex[2]+listex[3])/4
+			yy = (listey[0]+listey[1]+listey[2]+listey[3])/4
+			listex.append(x)
+			listey.append(y)
+			del listex[0]
+			del listey[0]
+			x = xx
+			y = yy
+		if mov == 0 and x > 10:
 			moteur3 += 2
 			moteur1 -= 2
 			motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 			motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
-		if mov == 0 and x < 5:
+		if mov == 0 and x < -10:
 			moteur3 -= 2
 			moteur1 += 2
 			motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 			motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
-		if mov == 0 and y > 5:
+		if mov == 0 and y > 10:
 			moteur2 += 2
 			moteur4 -= 2
 			motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 			motor4.ChangeDutyCycle(pourcent(moteur4, "moteur4"))
-		if mov == 0 and y < 5:
+		if mov == 0 and y < -10:
 			moteur2 -= 2
 			moteur4 += 2
 			motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
@@ -262,6 +264,9 @@ thread2.join()
 
 """
 Changelog :
+v0.7 :
+Algorithme pour l'accéléromètre.
+
 v0.6 :
 Ajustement avant test.
 
