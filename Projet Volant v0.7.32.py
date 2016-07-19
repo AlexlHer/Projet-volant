@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #Auteur : Alexandreou
 print("----------------------------------------------------------------------")
-print("Projet Volant v0.7.1")
+print("Projet Volant v0.7.32")
 print("----------------------------------------------------------------------")
 print("")
 #----------------------------------------------------
@@ -303,6 +303,12 @@ thread2.join()
 
 """
 Changelog :
+v0.7.32 :
+Ajustement du drone terminé.
+
+v0.7.11 -> v0.7.31 :
+Tentatives de correction sur les conditions.
+
 v0.7.1 :
 Ajout de conditions pour l'ajustement de la vitesse des moteurs.
 
