@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #Auteur : Alexandreou
 print("----------------------------------------------------------------------")
-print("Projet Volant v0.7")
+print("Projet Volant v0.7.1")
 print("----------------------------------------------------------------------")
 print("")
 #----------------------------------------------------
@@ -31,11 +31,13 @@ global moteur1
 global moteur2
 global moteur3
 global moteur4
+global temp_moteur
 
 moteur1 = 0
 moteur2 = 0
 moteur3 = 0
 moteur4 = 0
+temp_moteur = 0
 
 bus = smbus.SMBus(1)
 mov = 0
@@ -64,6 +66,7 @@ def pourcent(a, b):
 	global moteur2
 	global moteur3
 	global moteur4
+	global temp_moteur
 	if a < 0:
 		if b == "moteur1":
 			moteur1 = 0
@@ -73,6 +76,8 @@ def pourcent(a, b):
 			moteur3 = 0
 		if b == "moteur4":
 			moteur4 = 0
+		if b == "temp_moteur":
+			temp_moteur = 0
 		return 1
 	if a > 180:
 		if b == "moteur1":
@@ -83,6 +88,8 @@ def pourcent(a, b):
 			moteur3 = 180
 		if b == "moteur4":
 			moteur4 = 180
+		if b == "temp_moteur":
+			temp_moteur = 180
 		return 9.5
 	return 5 + a * 5 / 200
 
@@ -93,6 +100,7 @@ def a(a):
 	global moteur2
 	global moteur3
 	global moteur4
+	global temp_moteur
 	ajustx = 7
 	ajusty = 11
 	listex = []
@@ -106,7 +114,7 @@ def a(a):
 			x -= 256
 		if y > 127:
 			y -= 256
-		if len(liste) <= 4:
+		if len(listex) <= 4:
 			listex.append(x)
 			listey.append(y)
 		else:
@@ -118,27 +126,50 @@ def a(a):
 			del listey[0]
 			x = xx
 			y = yy
-		if mov == 0 and x > 10:
+		if mov == 0 and x > 5:
 			moteur3 += 2
 			moteur1 -= 2
 			motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 			motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
-		if mov == 0 and x < -10:
+		if mov == 0 and x < -5:
 			moteur3 -= 2
 			moteur1 += 2
 			motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 			motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
-		if mov == 0 and y > 10:
+		if mov == 0 and y > 5:
 			moteur2 += 2
 			moteur4 -= 2
 			motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 			motor4.ChangeDutyCycle(pourcent(moteur4, "moteur4"))
-		if mov == 0 and y < -10:
+		if mov == 0 and y < -5:
 			moteur2 -= 2
 			moteur4 += 2
 			motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 			motor4.ChangeDutyCycle(pourcent(moteur4, "moteur4"))
-			time.sleep(0.1)
+		if x < 2 and x > -2:
+			if temp_moteur == 0:
+				moteur3 = temp_moteur
+				moteur1 = temp_moteur
+				motor1.ChangeDutyCycle(1)
+				motor3.ChangeDutyCycle(1)
+			else:
+				moteur3 = temp_moteur
+				moteur1 = temp_moteur
+				motor1.ChangeDutyCycle(pourcent(temp_moteur, "temp_moteur"))
+				motor3.ChangeDutyCycle(pourcent(temp_moteur, "temp_moteur"))
+		if y < 2 and y > -2:
+			if temp_moteur == 0:
+				moteur2 = temp_moteur
+				moteur4 = temp_moteur
+				motor2.ChangeDutyCycle(1)
+				motor4.ChangeDutyCycle(1)
+			else:
+				moteur2 = temp_moteur
+				moteur4 = temp_moteur
+				motor2.ChangeDutyCycle(pourcent(temp_moteur, "temp_moteur"))
+				motor4.ChangeDutyCycle(pourcent(temp_moteur, "temp_moteur"))
+		print(temp_moteur)
+		time.sleep(0.1)
 		
 
 def b(a):
@@ -148,16 +179,19 @@ def b(a):
 	global moteur2
 	global moteur3
 	global moteur4
+	global temp_moteur
 	def demarrage(a):
 		print("C'est parti !")
 		global moteur1
 		global moteur2
 		global moteur3
 		global moteur4
+		global temp_moteur
 		moteur1 = 50
 		moteur2 = 50
 		moteur3 = 50
 		moteur4 = 50
+		temp_moteur = 50
 		motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 		motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 		motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
@@ -214,16 +248,19 @@ def b(a):
 		moteur2 = 0
 		moteur3 = 0
 		moteur4 = 0
+		temp_moteur = 0
 	def haut(a):
 		print("Monte !")
 		global moteur1
 		global moteur2
 		global moteur3
 		global moteur4
+		global temp_moteur
 		moteur1 += 2
 		moteur2 += 2
 		moteur3 += 2
 		moteur4 += 2
+		temp_moteur += 2
 		motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 		motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 		motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
@@ -234,10 +271,12 @@ def b(a):
 		global moteur2
 		global moteur3
 		global moteur4
+		global temp_moteur
 		moteur1 -= 2
 		moteur2 -= 2
 		moteur3 -= 2
 		moteur4 -= 2
+		temp_moteur -= 2
 		motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 		motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 		motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
@@ -264,6 +303,9 @@ thread2.join()
 
 """
 Changelog :
+v0.7.1 :
+Ajout de conditions pour l'ajustement de la vitesse des moteurs.
+
 v0.7 :
 Algorithme pour l'accéléromètre.
 
