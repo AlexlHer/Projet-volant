@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 #Auteur : Alexandreou
 print("----------------------------------------------------------------------")
-print("Projet Volant v0.5")
+print("Projet Volant v0.6")
 print("----------------------------------------------------------------------")
 print("")
 #----------------------------------------------------
@@ -116,22 +116,22 @@ def a(a):
 		if z > 127 and z <= 255:
 			z -= 255
 
-		if mov == 0 and x > 2:
+		if mov == 0 and x > 5:
 			moteur3 += 2
 			moteur1 -= 2
 			motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 			motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
-		if mov == 0 and x < 2:
+		if mov == 0 and x < 5:
 			moteur3 -= 2
 			moteur1 += 2
 			motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 			motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
-		if mov == 0 and y > 2:
+		if mov == 0 and y > 5:
 			moteur2 += 2
 			moteur4 -= 2
 			motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 			motor4.ChangeDutyCycle(pourcent(moteur4, "moteur4"))
-		if mov == 0 and y < 2:
+		if mov == 0 and y < 5:
 			moteur2 -= 2
 			moteur4 += 2
 			motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
@@ -152,10 +152,10 @@ def b(a):
 		global moteur2
 		global moteur3
 		global moteur4
-		moteur1 = 10
-		moteur2 = 10
-		moteur3 = 10
-		moteur4 = 10
+		moteur1 = 50
+		moteur2 = 50
+		moteur3 = 50
+		moteur4 = 50
 		motor1.ChangeDutyCycle(pourcent(moteur1, "moteur1"))
 		motor2.ChangeDutyCycle(pourcent(moteur2, "moteur2"))
 		motor3.ChangeDutyCycle(pourcent(moteur3, "moteur3"))
@@ -262,6 +262,9 @@ thread2.join()
 
 """
 Changelog :
+v0.6 :
+Ajustement avant test.
+
 v0.5 :
 Perfectionnement de la fonction pourcent.
 
