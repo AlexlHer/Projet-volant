@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-#Auteur : Alexandreou
+#Auteur : Alexandre l'Heritier
 print("----------------------------------------------------------------------")
 print("Reconfiguration v1.0")
 print("----------------------------------------------------------------------")
